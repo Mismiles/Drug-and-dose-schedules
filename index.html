@@ -183,6 +183,30 @@
       medSelect.innerHTML = "";
       options.forEach(opt => medSelect.add(opt));
 
+      // Retreive from Google Sheets
+      fetch("https://script.google.com/macros/s/AKfycb.../exec")
+      .then(response => response.json())
+      .then(data => {
+      const medSelect = document.getElementById("medication");
+      const strengthSelect = document.getElementById("strength");
+
+      medSelect.innerHTML = "";
+      strengthSelect.innerHTML = "";
+
+      data.forEach(item => {
+      const medOption = document.createElement("option");
+      medOption.value = item.name;
+      medOption.textContent = item.name;
+      medSelect.appendChild(medOption);
+
+      const strengthOption = document.createElement("option");
+      strengthOption.value = item.strength;
+      strengthOption.textContent = item.strength;
+      strengthSelect.appendChild(strengthOption);
+      });
+    })
+    .catch(error => console.error("Error loading data:", error));
+
       // Send to Google Sheets (placeholder)
       fetch("https://script.google.com/macros/s/AKfycbzA3oT0PYqXn0o7nB-yGZ2Txi1g_owS4Gz6QOuZ5H9m0cbvqEoJcm0T7lBwmY4n2bh4EQ/exec", {
         method: "POST",
